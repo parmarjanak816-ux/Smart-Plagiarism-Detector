@@ -1,74 +1,102 @@
-# Plagiarism Detector (KMP / Rabin–Karp / LCS)
+# Smart Plagiarism Detector
 
-A fast, privacy-friendly plagiarism detector with:
-- **KMP** and **Rabin–Karp** for exact substring matches
-- **LCS** (Longest Common Subsequence) for global similarity score
-- **Streamlit UI**: upload files or paste text, highlight matches, export results
+A Python-based text similarity application that compares documents using string-matching algorithms and displays matching passages and similarity scores.
 
-## ✨ Features
-- Upload 2+ text files (txt/csv/md) or paste text
-- Choose algorithm: **LCS**, **KMP**, **Rabin–Karp**
-- Pairwise LCS similarity matrix (%)
-- Highlighted overlapping spans for exact matches
-- Zero-storage privacy: Processing is in-memory only
+## Features
 
-## 🔧 Quickstart
-```bash
+- Upload text files or paste text for comparison
+- Compare documents using KMP, Rabin–Karp, and LCS algorithms
+- Calculate pairwise LCS similarity scores
+- Highlight matching text spans
+- Export analysis results
+- Streamlit-based user interface
+- Optional REST API for text analysis
+
+*Confirm each feature works in your local setup before presenting it as functional.*
+
+## Technology Stack
+
+- **Language:** Python
+- **Algorithms:** Knuth–Morris–Pratt (KMP), Rabin–Karp, Longest Common Subsequence (LCS)
+- **Interface:** Streamlit
+- **API:** FastAPI
+- **Testing:** pytest
+- **Deployment:** Docker and Streamlit Community Cloud
+
+## Algorithms
+
+- **KMP:** Uses a prefix table to find exact pattern matches efficiently.
+- **Rabin–Karp:** Uses rolling hashes to locate matching substrings.
+- **LCS:** Uses dynamic programming to measure the longest common subsequence between two texts.
+
+The LCS similarity score is calculated as:
+
+`Similarity = LCS length / maximum text length × 100`
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10 or later, subject to the project's dependencies
+- pip
+
+### Installation
+
+Create and activate a virtual environment.
+
+**Windows PowerShell:**
+
+```powershell
 python -m venv .venv
-# Windows PowerShell:
-# .\.venv\Scripts\Activate.ps1
-# macOS/Linux:
-# source .venv/bin/activate
+.\.venv\Scripts\Activate.ps1
+```
 
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+Start the application:
+
+```bash
 streamlit run app.py
 ```
-Open the app at: http://localhost:8501
 
-## 🐳 Docker
-```bash
-docker build -t plagiarism-detector .
-docker run -p 8501:8501 plagiarism-detector
-```
+Open `http://localhost:8501` in your browser.
 
-## 🚀 Deploy
-- **Streamlit Community Cloud**: Connect repo → set `app.py` as entrypoint
-- **Render / Railway**: Use the provided `render.yaml` or `Dockerfile`/`Dockerfile.api`
+## Running Tests
 
-## 🧠 Algorithms
-- **KMP**: linear-time pattern matching via prefix function (LPS)
-- **Rabin–Karp**: rolling hash for fast multi-search
-- **LCS**: DP-based longest common subsequence; we compute `LCS(a,b)/max(|a|,|b|)`
-
-## 🧪 Tests
 ```bash
 pytest -q
 ```
 
-## REST API
-The same algorithms are exposed via FastAPI.
+## Optional REST API
 
-**Run API:**
+If the API dependencies and implementation are present, start the service with:
+
 ```bash
-uvicorn api.main:app --host 0.0.0.0 --port 8000
+uvicorn api.main:app --host 127.0.0.1 --port 8000
 ```
 
-**POST /api/analyze**
-- Body (JSON):
-  - `algorithm`: `kmp` | `rk` | `rabin-karp` | `lcs`
-  - `textA`, `textB`: strings
-  - `pattern` (optional, exact-match modes)
-  - `chunk` (optional int, auto-chunk when `pattern` absent)
-- Response:
-  - `similarity` (for LCS) or `matchesA` / `matchesB` as `(start, len)` tuples.
+The API provides text-analysis functionality through the `/api/analyze` endpoint.
 
-**Note:** No data is persisted. Add rate limiting / auth if you open this publicly.
+## Privacy
 
-## 📄 License
-[MIT](LICENSE)
+The project is designed to process text in memory. Verify the implementation before making claims about data retention or privacy.
 
-## 🗺️ Roadmap
-- [ ] Export HTML/PDF report with highlights
-- [ ] Token-level matching (word shingles, Jaccard/BM25)
-- [ ] Syntax-aware code mode (strip comments/whitespace)
-- [ ] Optional serverless API (FastAPI) for batch jobs
+## Original Project and Attribution
+
+This project is based on the original repository:
+
+https://github.com/anshukashyap26/plagiarism-detector
+
+The original source and applicable licence terms are acknowledged. Document additional modifications after implementing and testing them.
+
+## My Contributions
+
+Record your own verified improvements here as you implement them.
+
+## License
+
+Refer to the included `LICENSE` file for the applicable licence terms.
